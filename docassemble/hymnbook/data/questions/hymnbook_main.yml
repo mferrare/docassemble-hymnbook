@@ -1,0 +1,65 @@
+# Display hymns on your phone or tablet or whatever you bring to church
+# at Christmas
+---
+# The data structure and the templates with the hymns needs to be included here.
+include:
+  - hymnbook_hymns.yml
+---
+# Welcome page
+# Insert the event into the question: tag
+mandatory: True
+question:  Christmas Vigil Mass
+subquestion: |
+  #### Hymn Book
+  
+  Press the 'Continue' button below to go to the first hymn.  Press 'Continue' 
+  to move to the next hymn and '<Back' to go to the previous hymn.
+  
+  [FILE nativity.jpg]
+  
+buttons:
+  Continue: continue
+---
+# This block displays all the hymns.  It ensures that each line
+# of a hymn has a single line break ('  ' at the end of line as per markdown)
+mandatory: True
+code: |
+  for m_item in order_of_mass:
+    hymn_as_string = ""
+    hymn_as_list = m_item['m_template'].splitlines()
+    for line in hymn_as_list:
+      hymn_as_string += line
+      if len(line) > 2 and line[-2:] != '  ':
+        hymn_as_string += '  '
+      hymn_as_string += '\n'
+    m_item['m_template'] = hymn_as_string
+    m_item['displayed']
+---
+mandatory: True
+question:  Thanks for Coming!
+subquestion: |
+  Have a Merry Christmas and a Happy New Year!
+  
+  [FILE jesus_is_the_reason.png]
+buttons:
+  - Exit: exit
+    url: https://hectorvillecathcomm.org.au/home/
+  - Restart: restart
+---
+question: |
+  ${ order_of_mass[i]['m_name'] }
+subquestion: |
+  ${ order_of_mass[i]['m_template'] }
+field: order_of_mass[i]['displayed']
+buttons:
+  - Continue: continue
+---
+metadata:
+  title: |
+    Christmas Vigil Mass - St Mark's Church
+  short title: |
+    St Mark's Church
+---
+features:
+  debug: False
+---
