@@ -45,7 +45,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.hymnbook',
       version='0.0.1',
       description=("Hymnbook - Used for St Mark's Church Hectorville Parish"),
-      long_description="# Hymnbook\r\n\r\nI created this for the Christmas Vigil Mass 2019 at St Mark's in Hectorville parish.\r\nThe idea was to print fewer hymn sheets and to allow people the option to access\r\nthe hymnbook on their phones.  As it is, I don't think it was used at all.\r\n\r\nI set up this [bit.ly link](https://bit.ly/hecto2019).  I'll keep that.  Maybe\r\nwe can use it again...",
+      long_description='# Hymnbook\r\n\r\nBasic hymnbook app. Hymns are defined as templates and stored in order listed.',
       long_description_content_type='text/markdown',
       author='Mark Ferraretto',
       author_email='mark@ferraretto.com',
