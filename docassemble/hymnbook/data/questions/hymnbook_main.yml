@@ -66,6 +66,15 @@ subquestion: |
 under: |
   Press **Continue**
   to move to the next hymn and **<Back** to go to the previous hymn.
+  
+  You can share this hymnbook with others:
+  
+  - ask them to enter 
+  [https://bit.ly/hbook20](https://bit.ly/hbook20) into their browser on their
+  phone; or
+  - scan the code below using the camera on their phone
+  
+  [FILE qrcode.png]
 continue button field: MJFdisplay_welcome_screen  
 ---
 # Final screen
