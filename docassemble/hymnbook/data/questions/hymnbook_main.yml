@@ -57,9 +57,9 @@ code: |
 ---
 # Opening screen.  Set the title and include an appropriate image
 mandatory: True
-question:  14th Sunday in Ordinary Time
+question:  Hymn Book
 subquestion: |
-  #### Hymn Book
+  **14th Sunday in Ordinary Time** 5 July 2020
   
   [FILE Psalm_48.jpg]
 under: |
