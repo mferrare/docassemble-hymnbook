@@ -3,63 +3,121 @@
 ---
 # The data structure and the templates with the hymns needs to be included here.
 include:
-  - hymnbook_hymns.yml
+  - h_all_the_ends_of_the_earth.yml
+  - h_van_eyk_gloria.yml
+  - h_sing_alleluia.yml
+  - h_blessing_song.yml
+  - h_van_eyk_holy_holy.yml
+  - h_van_eyk_when_we_eat_this_bread.yml
+  - h_our_father.yml
+  - h_lamb_of_god.yml
+  - h_one_bread_one_body.yml
+  - h_hail_queen_of_heaven.yml
 ---
-# Welcome page
-# Insert the event into the question: tag
+objects:
+  a_order_of_mass: DAList.using(object_type=DAObject, auto_gather=False)
+---
+# Each hymn is stored in a template. The templates are listed in
+# hymn_list in the order that they are to be sung during the mass.
+code: |
+  hymn_list = [
+    h_all_the_ends_of_the_earth,
+    h_van_eyk_gloria,
+    h_sing_alleluia,
+    h_blessing_song,
+    h_van_eyk_holy_holy,
+    h_van_eyk_when_we_eat_this_bread,
+    h_our_father,
+    h_lamb_of_god,
+    h_one_bread_one_body,
+    h_hail_queen_of_heaven
+  ]
+---
+code: |
+  a_order_of_mass.clear()
+  for hymn_template in hymn_list:
+    a_hymn = DAObject()
+    a_hymn.title = hymn_template.subject
+    a_hymn.text = hymn_template.show()
+    a_order_of_mass.append(a_hymn)
+  a_order_of_mass.gathered = True
+---
+# Drive the app from here
 mandatory: True
-question:  Christmas Vigil Mass
+code: |
+  # Display the opening screen
+  MJFdisplay_welcome_screen
+  
+  # Display each hymn
+  for a_hymn in a_order_of_mass:
+    a_hymn.displayed
+  
+  # Final screen
+  MJFdisplay_final_screen
+---
+# Opening screen.  Set the title and include an appropriate image
+mandatory: True
+question:  14th Sunday in Ordinary Time
 subquestion: |
   #### Hymn Book
   
-  Press the 'Continue' button below to go to the first hymn.  Press 'Continue' 
-  to move to the next hymn and '<Back' to go to the previous hymn.
-  
-  [FILE nativity.jpg]
-  
-buttons:
-  Continue: continue
+  [FILE Psalm_48.jpg]
+under: |
+  Press **Continue**
+  to move to the next hymn and **<Back** to go to the previous hymn.
+continue button field: MJFdisplay_welcome_screen  
 ---
-# This block displays all the hymns.  It ensures that each line
-# of a hymn has a single line break ('  ' at the end of line as per markdown)
-mandatory: True
-code: |
-  for m_item in order_of_mass:
-    hymn_as_string = ""
-    hymn_as_list = m_item['m_template'].splitlines()
-    for line in hymn_as_list:
-      hymn_as_string += line
-      if len(line) > 2 and line[-2:] != '  ':
-        hymn_as_string += '  '
-      hymn_as_string += '\n'
-    m_item['m_template'] = hymn_as_string
-    m_item['displayed']
----
+# Final screen
+event: MJFdisplay_final_screen
 mandatory: True
 question:  Thanks for Coming!
 subquestion: |
-  Have a Merry Christmas and a Happy New Year!
+  Let us know if you like using an online hymn book.
   
-  [FILE jesus_is_the_reason.png]
+  Remember to book online to attend mass:
+  
+  - [Book for Annunciation Church](https://www.trybooking.com/BKFNA)
+  - [Book for St Mark's](https://www.trybooking.com/BKGHQ)
+  
+  See you next time!
+  
+  [FILE Psalm_34_taste_and_see.jpg]
 buttons:
   - Exit: exit
-    url: https://hectorvillecathcomm.org.au/home/
+    url: https://hectorvilleparish.com.au/
   - Restart: restart
 ---
+# Displays each hymn
 question: |
-  ${ order_of_mass[i]['m_name'] }
+  ${ a_order_of_mass[i].title }
 subquestion: |
-  ${ order_of_mass[i]['m_template'] }
-field: order_of_mass[i]['displayed']
+  ${ a_order_of_mass[i].display_text }
+field: a_order_of_mass[i].displayed
 buttons:
   - Continue: continue
 ---
+# Creates the text to be displayed as the hymn text.
+# We do this so we can insert line breaks in the proper
+# places by inserting a markdown single line break ('  ')
+# at the end of each line
+mandatory: True
+code: |
+  hymn_as_string = ""
+  hymn_as_list = a_order_of_mass[i].text.splitlines()
+  for line in hymn_as_list:
+    hymn_as_string += line
+    if len(line) > 2 and line[-2:] != '  ':
+      hymn_as_string += '  '
+    hymn_as_string += '\n'
+  a_order_of_mass[i].display_text = hymn_as_string
+---
+
 metadata:
   title: |
-    Christmas Vigil Mass - St Mark's Church
+    Hectorville Parish Online Hymn Book
   short title: |
-    St Mark's Church
+    Hymn Book
 ---
 features:
-  debug: False
+  debug: True
 ---
